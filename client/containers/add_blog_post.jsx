@@ -17,7 +17,7 @@ AddBlogPostContainer = class extends React.Component {
     const title = `New Post: ${_id}`;
     const content = `New post content: ${_id}`;
 
-    // optimisitic updates
+    // post object
     const post = {
       _id, title, content,
       comments: [],
@@ -25,12 +25,14 @@ AddBlogPostContainer = class extends React.Component {
       saving: true
     };
 
+    // update the cache with above post
     BlogSchema.cache.setItemPayload(
       BlogPostContainer.query,
       {postId: _id},
       {post},
     );
 
+    // invoke the mutation
     BlogSchema.mutate(`
       {
         post: addPost(
@@ -44,15 +46,18 @@ AddBlogPostContainer = class extends React.Component {
       }
     `)
     .then((payload) => {
+      // if success, update the cache with the modified document
       BlogSchema.cache.setItemPayload(
         BlogPostContainer.query,
         {postId: _id},
         payload
       );
     }, (error) => {
+      // if there is an error, alert it
       alert(error.message);
     })
     .then(() => {
+      // refetch the query for the home page titles
       BlogSchema.refetchQuery(BlogTitlesContainer.query);
     });
 
