@@ -64,6 +64,20 @@ const mutation = new GraphQLObjectType({
           .then(() => Promisify(coll, 'insert')(args))
           .then(() => args);
       }
+    },
+
+    reset: {
+      type: GraphQLString,
+      resolve(root, args, {rootValue}) {
+        if (!rootValue.userId) {
+          // if this is not a loggedIn user
+          throw new Error("Unauthorized");
+        }
+
+        return sleep(300)
+          .then(() => Promisify(Collections.posts.rawCollection(), 'remove')({}))
+          .then(() => Promisify(Collections.comments.rawCollection(), 'remove')({}));
+      }
     }
   })
 });

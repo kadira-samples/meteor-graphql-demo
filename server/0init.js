@@ -21,7 +21,7 @@ Promisify = (context, fnName) => {
 };
 
 // Bootstrap with some dummy data
-if(!Collections.posts.findOne()) {
+if(!Collections.authors.findOne()) {
   Collections.authors.insert({
     _id: 'arunoda',
     name: 'Arunoda Susiripala'
