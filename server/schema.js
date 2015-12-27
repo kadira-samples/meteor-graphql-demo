@@ -6,20 +6,26 @@ const {
   GraphQLNonNull
 } = GraphQL.types;
 
+const sleep = (millis) => {
+  return new Promise((resolve) => setTimeout(resolve, millis));
+};
+
 const query = new GraphQLObjectType({
   name: 'BlogQueries',
   fields: () => ({
     recentPost: {
       type: BlogPost,
       resolve() {
-        return Collections.posts.findOne();
+        return sleep(200)
+          .then(() => Collections.posts.findOne());
       }
     },
 
     posts: {
       type: new GraphQLList(BlogPost),
       resolve() {
-        return Collections.posts.find().toArray();
+        return sleep(200)
+          .then(() => Collections.posts.find().toArray());
       }
     },
 
@@ -29,7 +35,9 @@ const query = new GraphQLObjectType({
         _id: {type: new GraphQLNonNull(GraphQLString)}
       },
       resolve(root, args) {
-        return Collections.posts.findOne({_id: args._id});
+        const selector = {_id: args._id};
+        return sleep(200)
+          .then(() => Collections.posts.findOne(selector));
       }
     }
   })
