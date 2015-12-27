@@ -47,8 +47,30 @@ const query = new GraphQLObjectType({
   })
 });
 
+const mutation = new GraphQLObjectType({
+  name: 'BlogMutations',
+  fields: () => ({
+    addPost: {
+      type: BlogPost,
+      args: {
+        _id: {type: new GraphQLNonNull(GraphQLString)},
+        title: {type: new GraphQLNonNull(GraphQLString)},
+        content: {type: new GraphQLNonNull(GraphQLString)},
+        author: {type: new GraphQLNonNull(GraphQLString)}
+      },
+      resolve(root, args) {
+        const coll = Collections.posts.rawCollection();
+        return sleep(800)
+          .then(() => Promisify(coll, 'insert')(args))
+          .then(() => args);
+      }
+    }
+  })
+});
+
 const schema = new GraphQLSchema({
-  query
+  query,
+  mutation
 });
 
 GraphQL.registerSchema('Blog', schema);

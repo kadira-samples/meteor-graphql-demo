@@ -13,3 +13,11 @@ FlowRouter.route('/post/:postId', {
     });
   }
 });
+
+FlowRouter.route('/add-post', {
+  action() {
+    ReactLayout.render(MainLayout, {
+      content: <AddBlogPostContainer />
+    });
+  }
+});

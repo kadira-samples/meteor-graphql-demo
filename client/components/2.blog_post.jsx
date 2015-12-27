@@ -1,5 +1,6 @@
 BlogPost = ({post}) => (
   <div className={`post-${post._id}`}>
+    {(post.saving)? <p>Still saving...</p>: null}
     <h2>{post.title}</h2>
     <small>
       (By - <Author author={post.author}/>)

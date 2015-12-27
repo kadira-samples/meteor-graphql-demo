@@ -13,7 +13,8 @@ MainLayout = ({content}) => (
   <div>
     <header style={headerStyles}>
       <h1>My Blog Post</h1>
-      <a href='/'>Home</a>
+      <a href='/'>Home</a> |
+      <a href='/add-post'>Add Post</a>
     </header>
     <div>
       {content}
