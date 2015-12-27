@@ -1,5 +1,5 @@
 FlowRouter.route('/', {
   action() {
-    ReactLayout.render(BlogContainer);
+    ReactLayout.render(BlogPostContainer);
   }
 })

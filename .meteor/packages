@@ -23,3 +23,9 @@ kadira:flow-router
 kadira:react-layout
 react
 reactive-var
+meteorhacks:npm
+
+
+npm-container
+promise
+random
