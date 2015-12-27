@@ -16,16 +16,19 @@ const query = new GraphQLObjectType({
     recentPost: {
       type: BlogPost,
       resolve() {
+        const coll = Collections.posts.rawCollection();
         return sleep(200)
-          .then(() => Collections.posts.findOne());
+          .then(() => Promisify(coll, 'findOne')());
       }
     },
 
     posts: {
       type: new GraphQLList(BlogPost),
       resolve() {
+        const coll = Collections.posts.rawCollection();
+        const cursor = coll.find();
         return sleep(200)
-          .then(() => Collections.posts.find().toArray());
+          .then(() => Promisify(cursor, 'toArray')());
       }
     },
 
@@ -36,8 +39,9 @@ const query = new GraphQLObjectType({
       },
       resolve(root, args) {
         const selector = {_id: args._id};
+        const coll = Collections.posts.rawCollection();
         return sleep(200)
-          .then(() => Collections.posts.findOne(selector));
+          .then(() => Promisify(coll, 'findOne')(selector));
       }
     }
   })

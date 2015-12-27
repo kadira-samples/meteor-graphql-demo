@@ -1,23 +1,36 @@
-const { MongoClient } = Meteor.npmRequire('mongodb');
-
-DB = MongoClient.connect(process.env.MONGO_URL).await();
 Collections = {
-  authors: DB.collection('authors'),
-  posts: DB.collection('posts'),
-  comments: DB.collection('comments')
+  authors: new Mongo.Collection('authors'),
+  posts: new Mongo.Collection('posts'),
+  comments: new Mongo.Collection('comments')
+};
+
+Promisify = (context, fnName) => {
+  return (...args) => {
+    return new Promise((resolve, reject) => {
+      args.push((error, result) => {
+        if(error) {
+          return reject(error);
+        }
+
+        return resolve(result);
+      });
+
+      context[fnName].apply(context, args);
+    });
+  }
 };
 
 // Bootstrap with some dummy data
-if(!Collections.posts.findOne().await()) {
+if(!Collections.posts.findOne()) {
   Collections.authors.insert({
     _id: 'arunoda',
     name: 'Arunoda Susiripala'
-  }).await();
+  });
 
   Collections.authors.insert({
     _id: 'tom',
     name: 'Tom Moodi'
-  }).await();
+  });
 
   for(let lc=0; lc<5; lc++) {
     const postId = Random.id();
@@ -26,7 +39,7 @@ if(!Collections.posts.findOne().await()) {
       title: `Post Title: ${lc}`,
       content: `Post content: ${lc}`,
       author: 'arunoda'
-    }).await();
+    });
 
     const commentId = Random.id();
     Collections.comments.insert({
@@ -34,6 +47,6 @@ if(!Collections.posts.findOne().await()) {
       text: `Post ${lc} is awesome`,
       postId,
       author: 'tom'
-    }).await();
+    });
   }
 }
