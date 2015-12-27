@@ -1,6 +1,6 @@
 const { MongoClient } = Meteor.npmRequire('mongodb');
 
-DB = Promise.resolve(MongoClient.connect(process.env.MONGO_URL)).await();
+DB = MongoClient.connect(process.env.MONGO_URL).await();
 Collections = {
   authors: DB.collection('authors'),
   posts: DB.collection('posts'),
