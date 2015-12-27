@@ -1,10 +1,11 @@
 BlogPostContainer = GraphQL.bindData((props, onData) => {
-  return BlogSchema.watchQuery(BlogPostContainer.query, onData);
+  const vars = {postId: props.postId};
+  return BlogSchema.watchQuery(BlogPostContainer.query, vars, onData);
 })(BlogPost);
 
 BlogPostContainer.query = `
-  {
-    post: recentPost {
+  query _($postId: String!){
+    post(_id: $postId) {
       ...${BlogPost.fragment}
     }
   }

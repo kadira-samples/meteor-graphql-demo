@@ -2,7 +2,8 @@ const {
   GraphQLSchema,
   GraphQLObjectType,
   GraphQLString,
-  GraphQLList
+  GraphQLList,
+  GraphQLNonNull
 } = GraphQL.types;
 
 const query = new GraphQLObjectType({
@@ -19,6 +20,16 @@ const query = new GraphQLObjectType({
       type: new GraphQLList(BlogPost),
       resolve() {
         return Collections.posts.find().toArray();
+      }
+    },
+
+    post: {
+      type: BlogPost,
+      args: {
+        _id: {type: new GraphQLNonNull(GraphQLString)}
+      },
+      resolve(root, args) {
+        return Collections.posts.findOne({_id: args._id});
       }
     }
   })
