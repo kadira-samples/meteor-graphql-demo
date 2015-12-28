@@ -1,5 +1,5 @@
 BlogTitles = ({posts}) => (
-  <ul>
+  <ul className="blog-titles">
     {posts.map(post => (
       <li key={post._id}>
         <a href={`/post/${post._id}`}>

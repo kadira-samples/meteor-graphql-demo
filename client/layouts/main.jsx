@@ -1,14 +1,3 @@
-const headerStyles = {
-  borderBottom: '1px solid #AAA',
-  paddingBottom: 10
-};
-
-const footerStyles = {
-  marginTop: 30,
-  borderTop: '1px solid #AAA',
-  paddingTop: 10
-};
-
 const resetBlog = () => {
   BlogSchema.mutate(`
     {reset}
@@ -23,17 +12,17 @@ const resetBlog = () => {
 
 MainLayout = ({content}) => (
   <div>
-    <header style={headerStyles}>
+    <header>
       <h1>My Blog Post</h1>
-      <a href='/'>Home</a> |
+      <a href='/'>Home</a>
       <a href='/add-post'>Add Post</a>
       <button onClick={resetBlog}>Reset Blog</button>
     </header>
     <div>
       {content}
     </div>
-    <footer style={footerStyles}>
-      <small>This blog is powered by GraphQL, Lokka & Meteor</small>
+    <footer>
+      This blog is powered by GraphQL, Lokka & Meteor
     </footer>
   </div>
 );
