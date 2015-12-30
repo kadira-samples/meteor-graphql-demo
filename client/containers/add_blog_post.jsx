@@ -1,4 +1,4 @@
-AddBlogPostContainer = class extends React.Component {
+AddBlogPostContainer = class AddBlogPostContainer extends React.Component {
   constructor(props, context) {
     super(props, context);
   }

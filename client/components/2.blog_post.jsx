@@ -12,6 +12,7 @@ BlogPost = ({post}) => (
     </div>
   </div>
 );
+BlogPost.displayName = 'BlogPost';
 
 BlogPost.fragment = BlogSchema.createFragment(`
   fragment on BlogPost {

@@ -3,6 +3,7 @@ Comment = ({comment}) => (
     <Author author={comment.author}/>: {comment.text}
   </div>
 );
+Comment.displayName = 'Comment';
 
 Comment.fragment = BlogSchema.createFragment(`
   fragment on Comment {

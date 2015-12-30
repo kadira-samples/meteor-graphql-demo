@@ -39,7 +39,7 @@ insecure@1.0.4
 jquery@1.11.4
 jsx@0.2.3
 kadira:flow-router@2.10.0
-kadira:graphql@1.0.0
+kadira:graphql@1.2.1
 kadira:react-layout@1.5.3
 kadira:runtime-dev@0.0.1
 launch-screen@1.0.4

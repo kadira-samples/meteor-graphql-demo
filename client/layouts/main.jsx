@@ -26,3 +26,4 @@ MainLayout = ({content}) => (
     </footer>
   </div>
 );
+MainLayout.displayName = 'MainLayout';

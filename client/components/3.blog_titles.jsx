@@ -9,6 +9,7 @@ BlogTitles = ({posts}) => (
     ))}
   </ul>
 );
+BlogTitles.displayName = 'BlogTitles';
 
 BlogTitles.fragment = BlogSchema.createFragment(`
   fragment on BlogPost {
