@@ -1,9 +1,4 @@
-const {
-  GraphQLSchema,
-  GraphQLObjectType,
-  GraphQLString,
-  GraphQLList
-} = GraphQL.types;
+const { GraphQLObjectType, GraphQLString, GraphQLList } = GraphQL.types;
 
 Author = new GraphQLObjectType({
   name: 'Author',
@@ -12,6 +7,7 @@ Author = new GraphQLObjectType({
     name: {type: GraphQLString}
   })
 });
+
 
 BlogPost = new GraphQLObjectType({
   name: 'BlogPost',
@@ -36,6 +32,7 @@ BlogPost = new GraphQLObjectType({
     }
   })
 });
+
 
 Comment = new GraphQLObjectType({
   name: 'Comment',
