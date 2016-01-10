@@ -6,9 +6,6 @@ const {
   GraphQLNonNull
 } = GraphQL.types;
 
-const sleep = (millis) => {
-  return new Promise((resolve) => setTimeout(resolve, millis));
-};
 
 const query = new GraphQLObjectType({
   name: 'BlogQueries',
@@ -16,19 +13,14 @@ const query = new GraphQLObjectType({
     recentPost: {
       type: BlogPost,
       resolve() {
-        const coll = Collections.posts.rawCollection();
-        return sleep(200)
-          .then(() => Promisify(coll, 'findOne')());
+        return Collections.posts.findOne();
       }
     },
 
     posts: {
       type: new GraphQLList(BlogPost),
       resolve() {
-        const coll = Collections.posts.rawCollection();
-        const cursor = coll.find();
-        return sleep(200)
-          .then(() => Promisify(cursor, 'toArray')());
+        return Collections.posts.find().fetch();
       }
     },
 
@@ -38,10 +30,7 @@ const query = new GraphQLObjectType({
         _id: {type: new GraphQLNonNull(GraphQLString)}
       },
       resolve(root, args) {
-        const selector = {_id: args._id};
-        const coll = Collections.posts.rawCollection();
-        return sleep(200)
-          .then(() => Promisify(coll, 'findOne')(selector));
+        return Collections.posts.findOne({_id: args._id});
       }
     }
   })
@@ -59,10 +48,8 @@ const mutation = new GraphQLObjectType({
         author: {type: new GraphQLNonNull(GraphQLString)}
       },
       resolve(root, args) {
-        const coll = Collections.posts.rawCollection();
-        return sleep(800)
-          .then(() => Promisify(coll, 'insert')(args))
-          .then(() => args);
+        Collections.posts.insert(args);
+        return args;
       }
     },
 
@@ -73,10 +60,8 @@ const mutation = new GraphQLObjectType({
           // if this is not a loggedIn user
           throw new Error("Unauthorized");
         }
-
-        return sleep(300)
-          .then(() => Promisify(Collections.posts.rawCollection(), 'remove')({}))
-          .then(() => Promisify(Collections.comments.rawCollection(), 'remove')({}));
+        Collections.posts.remove({});
+        Collections.comments.remove({});
       }
     }
   })

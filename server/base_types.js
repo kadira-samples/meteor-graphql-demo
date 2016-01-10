@@ -18,16 +18,13 @@ BlogPost = new GraphQLObjectType({
     author: {
       type: Author,
       resolve(post) {
-        const coll = Collections.authors.rawCollection();
-        return Promisify(coll, 'findOne')({_id: post.author});
+        return Collections.authors.findOne({_id: post.author})
       }
     },
     comments: {
       type: new GraphQLList(Comment),
       resolve(post) {
-        const coll = Collections.comments.rawCollection();
-        const cursor = coll.find({postId: post._id});
-        return Promisify(cursor, 'toArray')();
+        return Collections.comments.find({postId: post._id}).fetch();
       }
     }
   })
@@ -42,8 +39,7 @@ Comment = new GraphQLObjectType({
     author: {
       type: Author,
       resolve(comment) {
-        const coll = Collections.authors.rawCollection();
-        return Promisify(coll, 'findOne')({_id: comment.author});
+        return Collections.authors.findOne({_id: comment.author});
       }
     }
   })

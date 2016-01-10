@@ -4,21 +4,6 @@ Collections = {
   comments: new Mongo.Collection('comments')
 };
 
-Promisify = (context, fnName) => {
-  return (...args) => {
-    return new Promise((resolve, reject) => {
-      args.push((error, result) => {
-        if(error) {
-          return reject(error);
-        }
-
-        return resolve(result);
-      });
-
-      context[fnName].apply(context, args);
-    });
-  }
-};
 
 // Bootstrap with some dummy data
 if(!Collections.authors.findOne()) {
