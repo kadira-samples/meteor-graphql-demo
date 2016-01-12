@@ -13,6 +13,7 @@ const query = new GraphQLObjectType({
     recentPost: {
       type: BlogPost,
       resolve() {
+        Meteor._sleepForMs(200); // simulate latency compensation
         return Collections.posts.findOne();
       }
     },
@@ -20,6 +21,7 @@ const query = new GraphQLObjectType({
     posts: {
       type: new GraphQLList(BlogPost),
       resolve() {
+        Meteor._sleepForMs(200); // simulate latency compensation
         return Collections.posts.find().fetch();
       }
     },
@@ -30,6 +32,7 @@ const query = new GraphQLObjectType({
         _id: {type: new GraphQLNonNull(GraphQLString)}
       },
       resolve(root, args) {
+        Meteor._sleepForMs(200); // simulate latency compensation
         return Collections.posts.findOne({_id: args._id});
       }
     }
@@ -48,6 +51,7 @@ const mutation = new GraphQLObjectType({
         author: {type: new GraphQLNonNull(GraphQLString)}
       },
       resolve(root, args) {
+        Meteor._sleepForMs(800); // simulate latency compensation
         Collections.posts.insert(args);
         return args;
       }
@@ -60,6 +64,7 @@ const mutation = new GraphQLObjectType({
           // if this is not a loggedIn user
           throw new Error("Unauthorized");
         }
+        Meteor._sleepForMs(300); // simulate latency compensation
         Collections.posts.remove({});
         Collections.comments.remove({});
       }
